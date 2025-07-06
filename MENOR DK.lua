@@ -1,14 +1,3 @@
-[[--
-
--By menor Dk 🎭🇪🇬
--Feito para se usar Nos mapas de id
--Chave e nois...
-
-apoio tcc 🇪🇬🎭
-
---]]
-
-
 local Players = game:GetService("Players")
 local MarketplaceService = game:GetService("MarketplaceService")
 
