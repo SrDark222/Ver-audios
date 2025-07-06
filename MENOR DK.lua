@@ -1,0 +1,79 @@
+[[--
+
+-By menor Dk 🎭🇪🇬
+-Feito para se usar Nos mapas de id
+-Chave e nois...
+
+apoio tcc 🇪🇬🎭
+
+--]]
+
+
+local Players = game:GetService("Players")
+local MarketplaceService = game:GetService("MarketplaceService")
+
+local function criarBillboard(inst, id, nome)
+	if not inst then return end
+	local jaTem = inst:FindFirstChild("RadioInfo")
+	if jaTem then jaTem:Destroy() end
+
+	local bb = Instance.new("BillboardGui")
+	bb.Name = "RadioInfo"
+	bb.Size = UDim2.new(0, 200, 0, 40)
+	bb.StudsOffset = Vector3.new(0, 3, 0)
+	bb.Adornee = inst
+	bb.AlwaysOnTop = true
+	bb.Parent = inst
+
+	local text = Instance.new("TextLabel")
+	text.Size = UDim2.new(1, 0, 1, 0)
+	text.BackgroundTransparency = 1
+	text.TextColor3 = Color3.new(1, 1, 1)
+	text.TextStrokeTransparency = 0
+	text.TextScaled = true
+	text.Font = Enum.Font.SourceSansBold
+	text.Text = "🎵 "..nome.."\n🆔 "..id
+	text.Parent = bb
+end
+
+local function getNome(soundId)
+	local id = tostring(soundId):match("%d+")
+	if not id then return "Desconhecido" end
+	local nome = "Desconhecido"
+	pcall(function()
+		local info = MarketplaceService:GetProductInfo(tonumber(id))
+		nome = info.Name
+	end)
+	return nome
+end
+
+local function listarSons()
+	local sonsDetectados = {}
+
+	for _, obj in pairs(workspace:GetDescendants()) do
+		if obj:IsA("Sound") and obj.IsPlaying then
+			local id = tostring(obj.SoundId):match("%d+")
+			local origem = obj.Parent:IsA("BasePart") and obj.Parent or obj:FindFirstAncestorWhichIsA("Model") and obj:FindFirstAncestorWhichIsA("Model"):FindFirstChild("Head")
+
+			if id and origem and not sonsDetectados[origem] then
+				local nome = getNome(obj.SoundId)
+				criarBillboard(origem, id, nome)
+				sonsDetectados[origem] = true
+			end
+		end
+	end
+
+	-- limpar os que pararam
+	for _, obj in pairs(workspace:GetDescendants()) do
+		if obj:IsA("BillboardGui") and obj.Name == "RadioInfo" and obj.Adornee and not sonsDetectados[obj.Adornee] then
+			obj:Destroy()
+		end
+	end
+end
+
+task.spawn(function()
+	while true do
+		pcall(listarSons)
+		wait(0.5) -- 500ms sem causar lag
+	end
+end)
