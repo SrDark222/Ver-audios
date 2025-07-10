@@ -66,3 +66,13 @@ task.spawn(function()
 		wait(0.5) -- 500ms sem causar lag
 	end
 end)
+wait(1)
+for tcc = 1, 2 do
+
+local args = {
+	"rbxassetid://100971981026789",
+	0
+}
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):WaitForChild("Shop"):WaitForChild("Effect"):FireServer(unpack(args))
+wait(1)
+end
