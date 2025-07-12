@@ -74,5 +74,13 @@ local args = {
 	0
 }
 game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):WaitForChild("Shop"):WaitForChild("Effect"):FireServer(unpack(args))
-wait(1)
+wait(0.0001)
 end
+
+local args = {
+	Color3.new(1, 0, 0),
+	1000,
+	"TCC 🇪🇬"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):WaitForChild("Shop"):WaitForChild("Tag"):FireServer(unpack(args))
+
